@@ -1,6 +1,6 @@
 import React from 'react';
-import AboutPic1 from '../../../assets/images/about_us/parts.jpg';
-import AboutPic2 from '../../../assets/images/about_us/person.jpg'
+import AboutPic1 from '../../assets/images/about_us/parts.jpg';
+import AboutPic2 from '../../assets/images/about_us/person.jpg'
 
 const About = () => {
     return (
