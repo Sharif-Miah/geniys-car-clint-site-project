@@ -12,17 +12,19 @@ const AuthProvider = ({ children }) => {
 
 
     const createUserInRegister = (email, password) => {
+        setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
     const createUserInLogin = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
-            console.log(currentUser);
+            setLoading(false)
         })
         return unsubscribe();
     }, [])

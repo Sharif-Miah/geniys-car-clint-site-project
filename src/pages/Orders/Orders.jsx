@@ -15,6 +15,24 @@ const Orders = () => {
             .then(data => setOrder(data))
     }, [user?.email])
 
+    const handleDelete = id => {
+        const proceed = window.confirm('Are you sure, you want to cancel this order')
+        if (proceed) {
+            fetch(`http://localhost:5000/orders/${id}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.deleteCount > 0) {
+                        alert('deleted successfully')
+                        const remainging = orders.filter(odr => odr._id !== id);
+                        setOrder(remainging)
+                    }
+                })
+        }
+    }
+
     return (
         <div>
             <h1 className='text-4xl'>This is Order page {orders.length}</h1>
@@ -37,7 +55,7 @@ const Orders = () => {
                     <tbody>
 
                         {
-                            orders.map(order => <OrdersRow key={order._id} order={order}></OrdersRow>)
+                            orders.map(order => <OrdersRow key={order._id} order={order} handleDelete={handleDelete}></OrdersRow>)
                         }
                     </tbody>
 

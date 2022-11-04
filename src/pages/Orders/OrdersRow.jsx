@@ -2,8 +2,8 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const OrdersRow = ({ order }) => {
-    const { serviceName, price, customer, service, phone } = order;
+const OrdersRow = ({ order, handleDelete }) => {
+    const { _id, serviceName, price, customer, service, phone } = order;
     const [orderServices, setOrderServices] = useState();
 
     useEffect(() => {
@@ -12,11 +12,13 @@ const OrdersRow = ({ order }) => {
             .then(data => setOrderServices(data))
     }, [service])
 
+
+
     return (
         <tr>
             <th>
                 <label>
-                    <button className='btn btn-ghost'>x</button>
+                    <button onClick={() => handleDelete(_id)} className='btn btn-ghost'>x</button>
                 </label>
             </th>
             <td>
