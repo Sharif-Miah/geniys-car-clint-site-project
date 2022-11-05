@@ -24,7 +24,8 @@ const Orders = () => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
-                    if (data.deleteCount > 0) {
+                    if (data.deletedCount
+                        > 0) {
                         alert('deleted successfully')
                         const remainging = orders.filter(odr => odr._id !== id);
                         setOrder(remainging)
@@ -32,6 +33,30 @@ const Orders = () => {
                 })
         }
     }
+
+
+    const handleApprovingStatus = id => {
+        fetch(`http://localhost:5000/orders/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'Approved' })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.modifiedCount > 0) {
+                    const remainging = orders.filter(odr => odr._id !== id)
+                    const approving = orders.find(odr => odr._id === id)
+                    approving.status = 'Approved'
+
+                    const newOrders = [approving, ...remainging]
+                    setOrder(newOrders)
+                }
+            })
+    }
+
 
     return (
         <div>
@@ -55,7 +80,7 @@ const Orders = () => {
                     <tbody>
 
                         {
-                            orders.map(order => <OrdersRow key={order._id} order={order} handleDelete={handleDelete}></OrdersRow>)
+                            orders.map(order => <OrdersRow key={order._id} order={order} handleDelete={handleDelete} handleApprovingStatus={handleApprovingStatus}></OrdersRow>)
                         }
                     </tbody>
 
